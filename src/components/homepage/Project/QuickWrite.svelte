@@ -87,9 +87,9 @@
         switch (e.key) {
             case "Enter":
                 e.preventDefault();
-                console.log("Here")
+
                 //Save the previous state
-                //saveState("add")
+                saveState("add")
                 if (e.shiftKey) {
                     //Shift+Enter = New Section
                     NewSection();
@@ -98,9 +98,10 @@
                 NewLine();
                 break;
             case "Backspace":
-                if(!cursorData.beforeLength)
+                if(!cursorData.beforeLength){
                   saveState("delete")
                   DeleteBlock();
+                }
                 break;
             case "ArrowUp":
               GoUp();
@@ -206,7 +207,7 @@
                 const prevLines = data[prevSec].lines;
                 if (prevLines.length > 0) {
                     const lastLine = prevLines.length - 1;
-                    data[prevSec].lines[lastLine] += after; // Append after content if exists
+                    data[prevSec].lines[lastLine] += "  "+after;
                     ActivateLine({ secid: prevSec, lineid: lastLine });
                 } else {
                     data[prevSec].lines = [after]; // If no lines, start one
@@ -217,17 +218,19 @@
             return;
         }
 
-        if (lineid === 0) {
+        else if (lineid === 0) {
             // First line of section → move to section heading
             data[secid].lines.splice(0, 1);
-            data[secid].title += after;
+            data[secid].title += "  "+after;
+            currInp = ""
             ActivateLine({ secid, lineid: -1 });
             return;
         }
 
         // Merge into previous line
         const prevLine = data[secid].lines[lineid - 1];
-        data[secid].lines[lineid - 1] = prevLine + currInp + after;
+        data[secid].lines[lineid - 1] = prevLine+" " + currInp +" ";
+        currInp = "";
         data[secid].lines.splice(lineid, 1);
         ActivateLine({ secid, lineid: lineid - 1 });
     }
@@ -241,17 +244,29 @@
         },
     ];
 //Send update to backend
-    function saveState(action:string){
-      let {secid,lineid} = Active
-      switch(action){
-        case "delete":
+function saveState(action: string) {
+  const { secid, lineid } = Active;
 
-        break;
-        case "add":
+  // Get the actual content based on coordinates
+  let content = currInp;
 
-        break;
-      }
-    }
+  // Format and log the action with coordinates and content
+  const coords = `[sec:${secid}, line:${lineid}]`;
+
+  switch (action) {
+    case "delete":
+      console.log(`Delete: ${coords} - "${content}"`);
+      break;
+    case "add":
+      console.log(`Add: ${coords} - "${content}"`);
+      break;
+    default:
+      console.log(`${action}: ${coords} - "${content}"`);
+  }
+
+  // In the future, this would be where you'd update your database
+  // Example: await db.update({ action, secid, lineid, content, timestamp: Date.now() });
+}
 </script>
 
 <div
