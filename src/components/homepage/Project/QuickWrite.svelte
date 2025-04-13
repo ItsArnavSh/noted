@@ -87,8 +87,9 @@
         switch (e.key) {
             case "Enter":
                 e.preventDefault();
+                console.log("Here")
                 //Save the previous state
-                saveState("add")
+                //saveState("add")
                 if (e.shiftKey) {
                     //Shift+Enter = New Section
                     NewSection();
@@ -264,11 +265,10 @@
                         bind:value={currInp}
                         oninput={autoResize}
                         onkeydown={(e) => {
-                          const textarea = e.target as HTMLTextAreaElement;
-                                 const cursorInfo = getCursorInfo(textarea);
-                                 cursorData = cursorInfo
-                                 console.log("Change")
-
+                            const textarea = e.target as HTMLTextAreaElement;
+                            const cursorInfo = getCursorInfo(textarea);
+                            cursorData = cursorInfo
+                            keyPress(e);
                         }}
                         autofocus
                         class="text-3xl font-bold bg-transparent border-none outline-none focus:outline-none focus:ring-0 resize-none w-full overflow-hidden p-2"
@@ -296,9 +296,9 @@
                                     class="bg-transparent border-none outline-none focus:outline-none focus:ring-0 resize-none w-full py-1 px-2 text-lg overflow-hidden"
                                     autofocus
                                     onkeydown={(e) => {
-                                            const textarea = e.target as HTMLTextAreaElement;
-                                             const cursorInfo = getCursorInfo(textarea);
-                                             cursorData = cursorInfo
+                                        const textarea = e.target as HTMLTextAreaElement;
+                                        const cursorInfo = getCursorInfo(textarea);
+                                        cursorData = cursorInfo
                                         keyPress(e);
                                     }}
 
