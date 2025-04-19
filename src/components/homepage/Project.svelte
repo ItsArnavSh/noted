@@ -1,6 +1,4 @@
 <script lang="ts">
-    import QuickWrite from "./Project/QuickWrite.svelte";
-    import WritingSection from "./Project/WritingSection.svelte";
     export let item: string;
 </script>
 
@@ -9,6 +7,5 @@
 {:else}
     <div class="w-full flex flex-col bg-[#393E44] h-screen">
         Hello {item}
-        <QuickWrite />
     </div>
 {/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Project from "../components/homepage/Project.svelte";
-    import SideBar from "../components/homepage/SideBar.svelte";
+    import SideBar from "../components/homepage/Sidebar/SideBar.svelte";
     let item = "0";
 </script>
 
